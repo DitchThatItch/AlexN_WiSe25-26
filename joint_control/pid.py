@@ -30,14 +30,14 @@ class PIDController(object):
         @param delay: delay in number of steps
         '''
         self.dt = dt
-        self.u = np.zeros(size)
-        self.e1 = np.zeros(size)
-        self.e2 = np.zeros(size)
+        self.u = np.zeros(size) # output
+        self.e1 = np.zeros(size) # used for integral
+        self.e2 = np.zeros(size) # used for derivative
         # ADJUST PARAMETERS BELOW
         delay = 0
-        self.Kp = 0
-        self.Ki = 0
-        self.Kd = 0
+        self.Kp = 10
+        self.Ki = 0.1
+        self.Kd = 0.2
         self.y = deque(np.zeros(size), maxlen=delay + 1)
 
     def set_delay(self, delay):
@@ -53,7 +53,16 @@ class PIDController(object):
         @return control signal
         '''
         # YOUR CODE HERE
+        e = target - sensor
+        P = self.Kp * e
+        I = self.Ki * self.e1
+        D = self.Kd * (e-self.e2)/self.dt
 
+        self.u = P + I + D
+        
+        self.e1 += (e * self.dt)
+        self.e2 = e
+ 
         return self.u
 
 
