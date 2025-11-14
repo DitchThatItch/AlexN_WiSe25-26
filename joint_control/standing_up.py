@@ -7,16 +7,33 @@
 
 
 from recognize_posture import PostureRecognitionAgent
-
+from keyframes import leftBackToStand, leftBellyToStand, rightBackToStand, rightBellyToStand
 
 class StandingUpAgent(PostureRecognitionAgent):
+    
     def think(self, perception):
-        self.standing_up()
+        self.standing_up(perception)
         return super(StandingUpAgent, self).think(perception)
 
-    def standing_up(self):
+    def standing_up(self, perception):
         posture = self.posture
         # YOUR CODE HERE
+        if not hasattr(self, "standing_up_in_progress"):
+            self.standing_up_in_progress = False
+        
+        if self.standing_up_in_progress == False:
+            if posture == 0:
+                self.motion_start_time = perception.time
+                self.keyframes = leftBackToStand()
+            elif posture == 1:
+                self.motion_start_time = perception.time
+                self.keyframes = leftBellyToStand()
+            self.standing_up_in_progress = True
+        elif perception.time - self.motion_start_time >= 10:
+            self.standing_up_in_progress = False
+ 
+
+
 
 
 class TestStandingUpAgent(StandingUpAgent):
