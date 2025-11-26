@@ -39,7 +39,6 @@ class PostureRecognitionAgent(AngleInterpolationAgent):
         features = joint_angles + angles
 
         posture = self.posture_classifier.predict([features])[0]
-        print(posture)
         return posture
 
 if __name__ == '__main__':
