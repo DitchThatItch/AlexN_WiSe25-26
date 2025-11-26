@@ -129,7 +129,6 @@ class InverseKinematicsAgent(ForwardKinematicsAgent):
             handle1 = [0, 0.0, 0.0]  # previous handle
             handle2 = [0, 0.0, 0.0]  # next handle
             keys.append([[angle, handle1, handle2], [angle, handle1, handle2]])
-        print("keys:", keys)
 
         self.keyframes = (joint_names, joint_times, keys)  # the result joint angles have to fill in
 
